@@ -149,8 +149,6 @@ body.flowless .tabbar{display:none}
 .wl-txt b{color:var(--gold);font-weight:500}
 .wlbtn{margin-top:38px;background:var(--gold);color:#0a0a0a;border:none;border-radius:12px;padding:15px 48px;font-size:11px;font-weight:600;letter-spacing:.26em;text-transform:uppercase;font-family:inherit;transition:transform .12s ease,filter .12s ease}
 .wlbtn:active{transform:scale(.97);filter:brightness(1.1)}
-.wlclose{position:fixed;top:calc(env(safe-area-inset-top)+18px);left:24px;z-index:85;background:transparent;border:1px solid var(--line);color:var(--muted);padding:9px 18px;font-size:9px;letter-spacing:.26em;text-transform:uppercase;border-radius:10px;cursor:pointer;font-family:inherit}
-.wlclose:active{border-color:var(--gold);color:var(--gold)}
 
 /* success / модалка / cookie / toast */
 .success{position:fixed;inset:0;z-index:90;background:var(--bg);display:flex;align-items:center;justify-content:center;padding:24px;opacity:0;pointer-events:none;transition:opacity .35s}
@@ -185,7 +183,6 @@ body.flowless .tabbar{display:none}
 <body>
 <div class="noise" aria-hidden="true"></div>
 <div id="welcome" class="welcome">
-  <button id="wlclose" class="wlclose" type="button">Закрыть</button>
   <div class="wl">
     <div class="wl-mark">MARIB</div>
     <div class="wl-rule"></div>
@@ -266,9 +263,9 @@ body.flowless .tabbar{display:none}
 </div>
 
 <nav class="tabbar">
+  <button id="tab-contacts" class="tab"><span class="ti"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></span>Контакты</button>
   <button id="tab-catalog" class="tab active"><span class="ti"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5a2 2 0 0 1 2-2h5v18H6a2 2 0 0 1-2-2V5z"/><path d="M15 3h3a2 2 0 0 1 2 2v4h-7V3z"/><path d="M13 11h7v6a2 2 0 0 1-2 2h-5v-8z"/></svg></span>Каталог</button>
   <button id="tab-cart" class="tab"><span class="ti"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M6 7h12l1.2 12.2a1.5 1.5 0 0 1-1.5 1.8H6.3a1.5 1.5 0 0 1-1.5-1.8L6 7z"/><path d="M9 10V5.5A3 3 0 0 1 12 2.5a3 3 0 0 1 3 3V10"/></svg></span>Корзина<span id="tabcnt" class="tabcnt"></span></button>
-  <button id="tab-contacts" class="tab"><span class="ti"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></span>Контакты</button>
 </nav>
 
 <div id="ppmodal" class="ppmodal">
@@ -395,7 +392,6 @@ function cookieChoice(v){localStorage.setItem("marib_cookies",v);var b=document.
 function db(fn,ms){var t;return function(){clearTimeout(t);t=setTimeout(fn,ms)}}
 function hideWelcome(){var w=document.getElementById("welcome");if(!w)return;w.classList.add("hide");setTimeout(function(){w.style.display="none"},400)}
 function init(){if(tg){tg.ready&&tg.ready();tg.expand&&tg.expand();T(function(){tg.setHeaderColor("#0a0a0a");tg.setBackgroundColor("#0a0a0a")});if(tg.BackButton){tg.BackButton.hide();tg.BackButton.onClick(function(){if(CUR==="detail"){closeProduct()}else if(CUR==="checkout"){closeCheckout()}else if(CUR==="contacts"){tab("catalog")}})}}}
-document.getElementById("wlclose").addEventListener("click",function(){if(tg&&tg.close)tg.close()});
 document.getElementById("wlbtn").addEventListener("click",hideWelcome);
 setTimeout(function(){var w=document.getElementById("welcome");if(w&&!w.classList.contains("hide")){hideWelcome()}},1300);
 document.getElementById("qgo").addEventListener("click",function(){Q=document.getElementById("q").value.trim();load(true);document.getElementById("q").focus()});
