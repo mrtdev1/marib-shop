@@ -401,11 +401,11 @@ var data={c:f,it:it.map(function(x){return{b:x.p.b,n:x.p.n,v:x.p.v||"",t:x.p.t?1
 var btn=document.getElementById("sendbtn");if(btn)btn.disabled=true;
 var done=function(){btn.disabled=false;localStorage.removeItem("marib_cart");cart={};ui();document.getElementById("success").classList.add("show");if(tg&&tg.HapticFeedback)T(function(){tg.HapticFeedback.notificationOccurred("success")})};
 var fail=function(){btn.disabled=false;toast("Не удалось отправить заказ, попробуйте ещё раз")};
-if(tg&&tg.sendData){if(tg.initDataUnsafe&&tg.initDataUnsafe.query_id){btn.disabled=false;toast("Откройте витрину кнопкой «Открыть магазин» в чате") ;return}try{tg.sendData(JSON.stringify(data));done();return}catch(e){fail();return}}
-fetch("/.netlify/functions/order",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify(data)})
+var viaTg=function(){if(tg&&tg.sendData&&tg.initDataUnsafe&&tg.initDataUnsafe.query_id){try{tg.sendData(JSON.stringify(data));done();return}catch(e){}}fail()};
+fetch("https://marib-shop.netlify.app/.netlify/functions/order",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify(data)})
 .then(function(r){return r.json().catch(function(){return{ok:false}})})
-.then(function(out){if(out&&out.ok){done()}else{fail()}})
-.catch(function(){fail()})}
+.then(function(out){if(out&&out.ok){done()}else{viaTg()}})
+.catch(viaTg)}
 function openPP(){document.getElementById("ppmodal").classList.add("show")}
 function closePP(){document.getElementById("ppmodal").classList.remove("show")}
 function showCookies(){var c=localStorage.getItem("marib_cookies");if(c)return;var b=document.getElementById("cookiebar");if(b)setTimeout(function(){b.classList.add("show")},700)}
